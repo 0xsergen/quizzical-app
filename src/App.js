@@ -1,7 +1,6 @@
 import React from "react";
 import Start from "./components/Start";
 import Quiz from "./components/Quiz";
-import LoadingSpinner from "./components/LoadingSpinner";
 import { nanoid } from "nanoid";
 
 export default function App() {
@@ -9,7 +8,6 @@ export default function App() {
   const [datas, setDatas] = React.useState([]);
   const [isOver, setIsOver] = React.useState(false);
   const [score, setScore] = React.useState(0);
-  const [isLoading, setIsLoading] = React.useState(false); // spinning effect
 
   function startQuiz() {
     // setIsStarted((prevState) => !prevState);
@@ -30,7 +28,6 @@ export default function App() {
   }
 
   const fetchQs = () => {
-    setIsLoading(true);
     fetch("https://opentdb.com/api.php?amount=5&type=multiple")
       .then((res) => res.json())
       .then((data) =>
@@ -53,12 +50,11 @@ export default function App() {
             };
           })
         )
-      )
-      .then(() => setIsLoading(false));
+      );
   };
 
   //React.useEffect(() => fetchQs, []);
-  // console.log(datas);
+  console.log(datas);
 
   // to save selected answer
   const setSelectAnswer = (id, answer) => {
@@ -107,17 +103,14 @@ export default function App() {
         return curr.selected_answer === curr.answer ? acc + 1 : acc;
       }, 0);
       setScore(score);
-      // console.log(score);
+      console.log(score);
     }
   });
 
-  console.log(isLoading);
   return (
     <main>
       {!isStarted ? (
-        <Start startFunc={() => startQuiz()} isLoading={isLoading} />
-      ) : { isLoading } ? (
-        <LoadingSpinner />
+        <Start startFunc={() => startQuiz()} />
       ) : (
         <div className="quiz-container">
           <div className="quiz-elements">{quizElements}</div>
