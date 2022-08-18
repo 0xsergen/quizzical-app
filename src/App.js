@@ -105,7 +105,7 @@ export default function App() {
       setScore(score);
       console.log(score);
     }
-  });
+  }, [isOver, datas]);
 
   return (
     <main>
